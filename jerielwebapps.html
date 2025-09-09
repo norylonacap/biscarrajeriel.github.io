@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png"
+      type="image/png"
+    />
+    <title>GeniusCat - Financial Literacy App</title>
+    <!-- Add Google Fonts for custom look -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* COMBINED CSS FROM style.css */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: #1246f0;
+      }
+
+      /* Screen Management */
+      .screen {
+        display: none;
+        min-height: 100vh;
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .screen.active {
+        display: block;
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      /* Welcome Screen */
+      .welcome-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        text-align: center;
+      }
+
+      .logo-container {
+        margin-bottom: 40px;
+      }
+
+      .cat-logo {
+        font-size: 80px;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      }
+
+      .app-title {
+        font-size: 2.5rem;
+        color: white;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(209, 63, 63, 0.3);
+      }
+
+      .tagline {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1rem;
+        margin-bottom: 40px;
+      }
+
+      .login-form {
+        width: 100%;
+        max-width: 300px;
+      }
+
+      #username-input {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .primary-btn {
+        width: 100%;
+        padding: 15px;
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .primary-btn:hover {
+        background: #ff5252;
+        transform: translateY(-2px);
+      }
+
+      /* Header */
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .welcome-text {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .logout-btn {
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 0.9rem;
+      }
+
+      /* Screen Header */
+      .screen-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 15px;
+      }
+
+      .back-btn {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        margin-right: 15px;
+        color: #333;
+      }
+
+      .screen-header h2 {
+        color: #333;
+        font-size: 1.5rem;
+      }
+
+      /* Main Menu */
+      .menu-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 20px;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .menu-item {
+        background: linear-gradient(135deg, #3065f5 0%, #5eaef0 100%);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: white;
+      }
+
+      .menu-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .menu-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+      }
+
+      .menu-item h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+      }
+
+      .menu-item p {
+        font-size: 0.8rem;
+        opacity: 0.9;
+      }
+
+      /* Budget Tracker */
+      .budget-summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .summary-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .summary-card.income {
+        border-left: 4px solid #4caf50;
+      }
+
+      .summary-card.expense {
+        border-left: 4px solid #f44336;
+      }
+
+      .summary-card.balance {
+        border-left: 4px solid #2196f3;
+      }
+
+      .summary-card h3 {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .amount {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .transaction-form {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+
+      .form-tabs {
+        display: flex;
+        margin-bottom: 15px;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        background: #e0e0e0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .tab-btn:first-child {
+        border-radius: 10px 0 0 10px;
+      }
+
+      .tab-btn:last-child {
+        border-radius: 0 10px 10px 0;
+      }
+
+      .tab-btn.active {
+        background: #ff6b6b;
+        color: white;
+      }
+
+      .transaction-form input,
+      .transaction-form select {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      .transaction-list {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .transaction-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .transaction-item:last-child {
+        border-bottom: none;
+      }
+
+      .transaction-info h4 {
+        margin-bottom: 5px;
+      }
+
+      .transaction-info p {
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      .transaction-amount {
+        font-weight: bold;
+      }
+
+      .transaction-amount.income {
+        color: #4caf50;
+      }
+
+      .transaction-amount.expense {
+        color: #f44336;
+      }
+
+      /* Savings Goals */
+      .goals-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .add-goal-form {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .add-goal-form h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .add-goal-form input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+
+      .goal-item {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 15px;
+      }
+
+      .goal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .goal-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .goal-target {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 20px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4caf50, #8bc34a);
+        transition: width 0.3s ease;
+      }
+
+      .goal-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .add-money-btn {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      /* Flashcards */
+      .flashcard-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .flashcard {
+        width: 100%;
+        height: 300px;
+        perspective: 1000px;
+        cursor: pointer;
+      }
+
+      .flashcard-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+      }
+
+      .flashcard.flipped .flashcard-inner {
+        transform: rotateY(180deg);
+      }
+
+      .flashcard-front,
+      .flashcard-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .flashcard-back {
+        transform: rotateY(180deg);
+      }
+
+      .flashcard-front h3 {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      .flashcard-back p {
+        font-size: 1.1rem;
+        color: #333;
+        line-height: 1.5;
+      }
+
+      .tap-hint {
+        position: absolute;
+        bottom: 20px;
+        font-size: 0.9rem;
+        color: #666;
+        opacity: 0.7;
+      }
+
+      .flashcard-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 15px;
+        border-radius: 15px;
+      }
+
+      .control-btn {
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      #card-counter {
+        font-weight: bold;
+        color: #333;
+      }
+
+      /* Quiz */
+      .quiz-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 20px;
+      }
+
+      .quiz-section {
+        display: none;
+      }
+
+      .quiz-section.active {
+        display: block;
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
+
+      .question-content h3 {
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .answer-option {
+        background: #fdfeff;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .answer-option:hover {
+        background: #e0e0e0;
+      }
+
+      .answer-option.selected {
+        background: #0c1ae4;
+        color: white;
+      }
+
+      .answer-option.correct {
+        background: #4caf50;
+        color: white;
+      }
+
+      .answer-option.incorrect {
+        background: #f44336;
+        color: white;
+      }
+
+      .results-content {
+        text-align: center;
+      }
+
+      .results-content p {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+      }
+
+      #final-score {
+        font-weight: bold;
+        color: #0440ad;
+      }
+
+      /* Profile */
+      .profile-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .profile-info {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .profile-avatar {
+        font-size: 4rem;
+        margin-bottom: 10px;
+      }
+
+      .profile-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 5px;
+        color: #333;
+      }
+
+      .join-date {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .progress-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+      }
+
+      .stat-card h4 {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+      }
+
+      .stat-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ff6b6b;
+      }
+
+      .achievements {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .achievements h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .achievement-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        background: #f5f5f5;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+
+      .achievement-icon {
+        font-size: 1.5rem;
+        margin-right: 15px;
+      }
+
+      .achievement-text h4 {
+        margin-bottom: 5px;
+      }
+
+      .achievement-text p {
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      /* Tips & Facts */
+      .tips-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .tip-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .tip-card h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .tip-card p {
+        line-height: 1.6;
+        color: #555;
+      }
+
+      .facts-section {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px;
+        border-radius: 15px;
+      }
+
+      .facts-section h3 {
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .fact-item {
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-left: 4px solid #ff6b6b;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 480px) {
+        .screen {
+          padding: 15px;
+        }
+
+        .budget-summary {
+          grid-template-columns: 1fr;
+        }
+
+        .progress-stats {
+          grid-template-columns: 1fr;
+        }
+
+        .menu-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .app-title {
+          font-size: 2rem;
+        }
+
+        .cat-logo {
+          font-size: 60px;
+        }
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Utility Classes */
+      .text-center {
+        text-align: center;
+      }
+      .mb-10 {
+        margin-bottom: 10px;
+      }
+      .mb-20 {
+        margin-bottom: 20px;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen active">
+      <div class="welcome-container">
+        <div class="logo-container">
+          <div class="cat-logo">🐱</div>
+          <h1 class="app-title">GeniusCat</h1>
+          <p class="tagline">Master Your Money, One Lesson at a Time</p>
+        </div>
+        <div class="login-form">
+          <input
+            type="text"
+            id="username-input"
+            placeholder="Enter your username"
+            maxlength="20"
+          />
+          <button id="login-btn" class="primary-btn">Start Learning</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Menu Screen -->
+    <div id="main-menu" class="screen">
+      <div class="header">
+        <div class="user-info">
+          <span class="welcome-text"
+            >Welcome, <span id="current-user"></span>!</span
+          >
+          <button id="logout-btn" class="logout-btn">Logout</button>
+        </div>
+      </div>
+      <div class="menu-container">
+        <div class="menu-grid">
+          <div class="menu-item" data-screen="budget-tracker">
+            <div class="menu-icon">💰</div>
+            <h3>Budget Tracker</h3>
+            <p>Track income & expenses</p>
+          </div>
+          <div class="menu-item" data-screen="savings-goals">
+            <div class="menu-icon">🎯</div>
+            <h3>Savings Goals</h3>
+            <p>Set & achieve goals</p>
+          </div>
+          <div class="menu-item" data-screen="flashcards">
+            <div class="menu-icon">📚</div>
+            <h3>Flashcards</h3>
+            <p>Learn accounting terms</p>
+          </div>
+          <div class="menu-item" data-screen="quiz">
+            <div class="menu-icon">🧠</div>
+            <h3>Quiz</h3>
+            <p>Test your knowledge</p>
+          </div>
+          <div class="menu-item" data-screen="profile">
+            <div class="menu-icon">👤</div>
+            <h3>Profile</h3>
+            <p>View your progress</p>
+          </div>
+          <div class="menu-item" data-screen="tips">
+            <div class="menu-icon">💡</div>
+            <h3>Tips & Facts</h3>
+            <p>Financial wisdom</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budget Tracker Screen -->
+    <div id="budget-tracker" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="main-menu">←</button>
+        <h2>Budget Tracker</h2>
+      </div>
+      <div class="budget-summary">
+        <div class="summary-card income">
+          <h3>Total Income</h3>
+          <p class="amount" id="total-income">₱0.00</p>
+        </div>
+        <div class="summary-card expense">
+          <h3>Total Expenses</h3>
+          <p class="amount" id="total-expenses">₱0.00</p>
+        </div>
+        <div class="summary-card balance">
+          <h3>Balance</h3>
+          <p class="amount" id="balance">₱0.00</p>
+        </div>
+      </div>
+      <div class="transaction-form">
+        <div class="form-tabs">
+          <button class="tab-btn active" data-type="income">Income</button>
+          <button class="tab-btn" data-type="expense">Expense</button>
+        </div>
+        <form id="transaction-form">
+          <input
+            type="text"
+            id="transaction-description"
+            placeholder="Description"
+            required
+          />
+          <input
+            type="number"
+            id="transaction-amount"
+            placeholder="Amount (₱)"
+            step="0.01"
+            required
+          />
+          <select id="transaction-category">
+            <option value="">Select Category</option>
+          </select>
+          <button type="submit" class="primary-btn">Add Transaction</button>
+        </form>
+      </div>
+      <div class="transaction-list">
+        <h3>Recent Transactions</h3>
+        <div id="transactions-container"></div>
+      </div>
+    </div>
+
+    <!-- Savings Goals Screen -->
+    <div id="savings-goals" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="main-menu">←</button>
+        <h2>Savings Goals</h2>
+      </div>
+      <div class="goals-container">
+        <div class="add-goal-form">
+          <h3>Create New Goal</h3>
+          <form id="goal-form">
+            <input
+              type="text"
+              id="goal-name"
+              placeholder="Goal name"
+              required
+            />
+            <input
+              type="number"
+              id="goal-target"
+              placeholder="Target amount (₱)"
+              step="0.01"
+              required
+            />
+            <input type="date" id="goal-deadline" required />
+            <button type="submit" class="primary-btn">Create Goal</button>
+          </form>
+        </div>
+        <div class="goals-list" id="goals-list"></div>
+      </div>
+    </div>
+
+    <!-- Flashcards Screen -->
+    <div id="flashcards" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="main-menu">←</button>
+        <h2>Flashcards</h2>
+      </div>
+      <div class="flashcard-container">
+        <div class="flashcard" id="current-flashcard">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <h3 id="flashcard-term"></h3>
+              <p class="tap-hint">Tap to reveal definition</p>
+            </div>
+            <div class="flashcard-back">
+              <p id="flashcard-definition"></p>
+              <p class="tap-hint">Tap to see term</p>
+            </div>
+          </div>
+        </div>
+        <div class="flashcard-controls">
+          <button id="prev-card" class="control-btn">← Previous</button>
+          <span id="card-counter">1 / 10</span>
+          <button id="next-card" class="control-btn">Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="main-menu">←</button>
+        <h2>Quiz</h2>
+      </div>
+      <div class="quiz-container">
+        <div id="quiz-start" class="quiz-section active">
+          <h3>Test Your Knowledge</h3>
+          <p>Answer questions about basic accounting and personal finance.</p>
+          <button id="start-quiz-btn" class="primary-btn">Start Quiz</button>
+        </div>
+        <div id="quiz-question" class="quiz-section">
+          <div class="question-header">
+            <span id="question-number">Question 1 of 5</span>
+            <span id="quiz-score">Score: 0</span>
+          </div>
+          <div class="question-content">
+            <h3 id="question-text"></h3>
+            <div class="answer-options" id="answer-options"></div>
+          </div>
+        </div>
+        <div id="quiz-results" class="quiz-section">
+          <h3>Quiz Complete!</h3>
+          <div class="results-content">
+            <p>Your Score: <span id="final-score"></span></p>
+            <p id="score-message"></p>
+            <button id="retake-quiz-btn" class="primary-btn">Take Again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div id="profile" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="main-menu">←</button>
+        <h2>Profile</h2>
+      </div>
+      <div class="profile-container">
+        <div class="profile-info">
+          <div class="profile-avatar">👤</div>
+          <h3 id="profile-username"></h3>
+          <p class="join-date">Member since <span id="join-date"></span></p>
+        </div>
+        <div class="progress-stats">
+          <div class="stat-card">
+            <h4>Quiz Attempts</h4>
+            <p class="stat-number" id="quiz-attempts">0</p>
+          </div>
+          <div class="stat-card">
+            <h4>Best Score</h4>
+            <p class="stat-number" id="best-score">0%</p>
+          </div>
+          <div class="stat-card">
+            <h4>Active Goals</h4>
+            <p class="stat-number" id="active-goals">0</p>
+          </div>
+          <div class="stat-card">
+            <h4>Current Balance</h4>
+            <p class="stat-number" id="profile-balance">₱0.00</p>
+          </div>
+        </div>
+        <div class="achievements">
+          <h3>Achievements</h3>
+          <div class="achievement-list" id="achievement-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tips & Facts Screen -->
+    <div id="tips" class="screen">
+      <div class="screen-header">
+        <button class="back-btn" data-target="main-menu">←</button>
+        <h2>Tips & Facts</h2>
+      </div>
+      <div class="tips-container">
+        <div class="tip-card" id="daily-tip">
+          <h3>💡 Tip of the Day</h3>
+          <p id="tip-content"></p>
+        </div>
+        <div class="facts-section">
+          <h3>Did You Know?</h3>
+          <div class="facts-list" id="facts-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMBINED JAVASCRIPT FROM script.js -->
+    <script>
+      // GeniusCat Financial Literacy App
+      class GeniusCatApp {
+        constructor() {
+          this.currentUser = null;
+          this.currentScreen = "welcome-screen";
+          this.currentCardIndex = 0;
+          this.currentQuizIndex = 0;
+          this.quizScore = 0;
+          this.transactionType = "income";
+
+          this.flashcards = [
+            {
+              term: "Assets",
+              definition:
+                "Resources owned by a business or individual that have economic value, such as cash, inventory, or equipment.",
+            },
+            {
+              term: "Liabilities",
+              definition:
+                "Debts or obligations that a business or individual owes to others, such as loans or accounts payable.",
+            },
+            {
+              term: "Equity",
+              definition:
+                "The ownership interest in a business, calculated as Assets minus Liabilities.",
+            },
+            {
+              term: "Revenue",
+              definition:
+                "Income generated from normal business operations or the total amount of income generated by the sale of goods or services.",
+            },
+            {
+              term: "Expenses",
+              definition:
+                "The cost of operations that a company incurs to generate revenue, such as rent, salaries, or utilities.",
+            },
+            {
+              term: "Budget",
+              definition:
+                "A financial plan that estimates income and expenses over a specific period of time.",
+            },
+            {
+              term: "Luca Pacioli",
+              definition:
+                "The Father of accounting and bookkeeping was the first perso publish a work on double entry bookkeeping.",
+            },
+            {
+              term: "Sole Proprietorship",
+              definition:
+                "It is a form of business organization with ONLY ONE OWNER",
+            },
+            {
+              term: "Accrual Accounting",
+              definition:
+                "The effects of business transaction should be recognizd in the period in which they occured.",
+            },
+            { term: "Prudence", definition: "It is also called CONSERVATISM." },
+          ];
+
+          this.quizQuestions = [
+            {
+              question: "What is the accounting equation?",
+              options: [
+                "Assets = Liabilities + Equity",
+                "Revenue = Expenses + Profit",
+                "Cash = Income - Expenses",
+                "Budget = Income + Savings",
+              ],
+              correct: 0,
+            },
+            {
+              question: "Which of the following is considered an asset?",
+              options: [
+                "Bank loan",
+                "Credit card debt",
+                "Cash in bank",
+                "Monthly rent",
+              ],
+              correct: 2,
+            },
+            {
+              question: "What does a budget help you do?",
+              options: [
+                "Increase your debt",
+                "Plan your spending",
+                "Avoid paying taxes",
+                "Eliminate all expenses",
+              ],
+              correct: 1,
+            },
+            {
+              question: "What is compound interest?",
+              options: [
+                "Simple interest only",
+                "Interest earned on interest",
+                "A type of loan",
+                "Monthly fees",
+              ],
+              correct: 1,
+            },
+            {
+              question: "Which is the best practice for personal finance?",
+              options: [
+                "Spend all your income",
+                "Save before spending",
+                "Only use credit cards",
+                "Avoid making budgets",
+              ],
+              correct: 1,
+            },
+          ];
+
+          this.tips = [
+            "Start saving early - even small amounts compound over time!",
+            "Track your expenses for a week to understand your spending habits.",
+            "The 50/30/20 rule: 50% needs, 30% wants, 20% savings.",
+            "Emergency funds should cover 3-6 months of expenses.",
+            "Pay yourself first - save before you spend.",
+            "Compare prices before making big purchases.",
+            "Avoid impulse buying - wait 24 hours before purchasing.",
+            "Review your budget monthly and adjust as needed.",
+          ];
+
+          this.facts = [
+            "Only 57% of adults worldwide are financially literate.",
+            "The average Filipino saves only 1.5% of their income.",
+            "Starting to save at 25 vs 35 can result in twice the retirement savings.",
+            "Credit card interest rates in the Philippines average 3.5% per month.",
+            "The peso has depreciated over 50% against the dollar since 2000.",
+          ];
+
+          this.incomeCategories = [
+            "Salary",
+            "Freelance",
+            "Business",
+            "Investment",
+            "Gift",
+            "Other",
+          ];
+          this.expenseCategories = [
+            "Food",
+            "Transportation",
+            "Utilities",
+            "Entertainment",
+            "Shopping",
+            "Healthcare",
+            "Education",
+            "Other",
+          ];
+
+          this.init();
+        }
+
+        init() {
+          this.setupEventListeners();
+          this.loadUserData();
+          this.showScreen("welcome-screen");
+        }
+
+        setupEventListeners() {
+          // Login
+          document
+            .getElementById("login-btn")
+            .addEventListener("click", () => this.login());
+          document
+            .getElementById("username-input")
+            .addEventListener("keypress", (e) => {
+              if (e.key === "Enter") this.login();
+            });
+
+          // Logout
+          document
+            .getElementById("logout-btn")
+            .addEventListener("click", () => this.logout());
+
+          // Navigation
+          document.querySelectorAll(".back-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              const target = e.target.getAttribute("data-target");
+              this.showScreen(target);
+            });
+          });
+
+          document.querySelectorAll(".menu-item").forEach((item) => {
+            item.addEventListener("click", (e) => {
+              const screen = e.currentTarget.getAttribute("data-screen");
+              this.showScreen(screen);
+            });
+          });
+
+          // Budget Tracker
+          document.querySelectorAll(".tab-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              this.switchTransactionType(e.target.getAttribute("data-type"));
+            });
+          });
+
+          document
+            .getElementById("transaction-form")
+            .addEventListener("submit", (e) => {
+              e.preventDefault();
+              this.addTransaction();
+            });
+
+          // Savings Goals
+          document
+            .getElementById("goal-form")
+            .addEventListener("submit", (e) => {
+              e.preventDefault();
+              this.addGoal();
+            });
+
+          // Flashcards
+          document
+            .getElementById("current-flashcard")
+            .addEventListener("click", () => this.flipCard());
+          document
+            .getElementById("prev-card")
+            .addEventListener("click", () => this.previousCard());
+          document
+            .getElementById("next-card")
+            .addEventListener("click", () => this.nextCard());
+
+          // Quiz
+          document
+            .getElementById("start-quiz-btn")
+            .addEventListener("click", () => this.startQuiz());
+          document
+            .getElementById("retake-quiz-btn")
+            .addEventListener("click", () => this.startQuiz());
+        }
+
+        login() {
+          const username = document
+            .getElementById("username-input")
+            .value.trim();
+          if (!username) {
+            alert("Please enter a username");
+            return;
+          }
+
+          this.currentUser = username;
+          this.saveUserData();
+          this.loadUserProfile();
+          this.showScreen("main-menu");
+          document.getElementById("current-user").textContent = username;
+        }
+
+        logout() {
+          this.currentUser = null;
+          this.showScreen("welcome-screen");
+          document.getElementById("username-input").value = "";
+        }
+
+        showScreen(screenId) {
+          document.querySelectorAll(".screen").forEach((screen) => {
+            screen.classList.remove("active");
+          });
+          document.getElementById(screenId).classList.add("active");
+          this.currentScreen = screenId;
+
+          // Load screen-specific data
+          switch (screenId) {
+            case "budget-tracker":
+              this.loadBudgetData();
+              break;
+            case "savings-goals":
+              this.loadGoals();
+              break;
+            case "flashcards":
+              this.loadFlashcard();
+              break;
+            case "profile":
+              this.loadProfile();
+              break;
+            case "tips":
+              this.loadTips();
+              break;
+          }
+        }
+
+        // Budget Tracker Functions
+        switchTransactionType(type) {
+          this.transactionType = type;
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((btn) => btn.classList.remove("active"));
+          document
+            .querySelector(`[data-type="${type}"]`)
+            .classList.add("active");
+
+          const categorySelect = document.getElementById(
+            "transaction-category"
+          );
+          categorySelect.innerHTML =
+            '<option value="">Select Category</option>';
+
+          const categories =
+            type === "income" ? this.incomeCategories : this.expenseCategories;
+          categories.forEach((category) => {
+            const option = document.createElement("option");
+            option.value = category;
+            option.textContent = category;
+            categorySelect.appendChild(option);
+          });
+        }
+
+        addTransaction() {
+          const description = document.getElementById(
+            "transaction-description"
+          ).value;
+          const amount = parseFloat(
+            document.getElementById("transaction-amount").value
+          );
+          const category = document.getElementById(
+            "transaction-category"
+          ).value;
+
+          if (!description || !amount || !category) {
+            alert("Please fill all fields");
+            return;
+          }
+
+          const transaction = {
+            id: Date.now(),
+            type: this.transactionType,
+            description,
+            amount,
+            category,
+            date: new Date().toLocaleDateString(),
+          };
+
+          const userData = this.getUserData();
+          if (!userData.transactions) userData.transactions = [];
+          userData.transactions.unshift(transaction);
+
+          this.saveUserData(userData);
+          this.loadBudgetData();
+
+          // Reset form
+          document.getElementById("transaction-form").reset();
+        }
+
+        loadBudgetData() {
+          const userData = this.getUserData();
+          const transactions = userData.transactions || [];
+
+          let totalIncome = 0;
+          let totalExpenses = 0;
+
+          transactions.forEach((transaction) => {
+            if (transaction.type === "income") {
+              totalIncome += transaction.amount;
+            } else {
+              totalExpenses += transaction.amount;
+            }
+          });
+
+          const balance = totalIncome - totalExpenses;
+
+          document.getElementById("total-income").textContent =
+            this.formatCurrency(totalIncome);
+          document.getElementById("total-expenses").textContent =
+            this.formatCurrency(totalExpenses);
+          document.getElementById("balance").textContent =
+            this.formatCurrency(balance);
+
+          // Load recent transactions
+          const container = document.getElementById("transactions-container");
+          container.innerHTML = "";
+
+          transactions.slice(0, 5).forEach((transaction) => {
+            const item = document.createElement("div");
+            item.className = "transaction-item";
+            item.innerHTML = `
+                        <div class="transaction-info">
+                            <h4>${transaction.description}</h4>
+                            <p>${transaction.category} • ${transaction.date}</p>
+                        </div>
+                        <div class="transaction-amount ${transaction.type}">
+                            ${
+                              transaction.type === "income" ? "+" : "-"
+                            }${this.formatCurrency(transaction.amount)}
+                        </div>
+                    `;
+            container.appendChild(item);
+          });
+
+          // Initialize categories
+          this.switchTransactionType("income");
+        }
+
+        // Savings Goals Functions
+        addGoal() {
+          const name = document.getElementById("goal-name").value;
+          const target = parseFloat(
+            document.getElementById("goal-target").value
+          );
+          const deadline = document.getElementById("goal-deadline").value;
+
+          if (!name || !target || !deadline) {
+            alert("Please fill all fields");
+            return;
+          }
+
+          const goal = {
+            id: Date.now(),
+            name,
+            target,
+            current: 0,
+            deadline,
+            created: new Date().toLocaleDateString(),
+          };
+
+          const userData = this.getUserData();
+          if (!userData.goals) userData.goals = [];
+          userData.goals.push(goal);
+
+          this.saveUserData(userData);
+          this.loadGoals();
+
+          // Reset form
+          document.getElementById("goal-form").reset();
+        }
+
+        loadGoals() {
+          const userData = this.getUserData();
+          const goals = userData.goals || [];
+          const container = document.getElementById("goals-list");
+          container.innerHTML = "";
+
+          goals.forEach((goal) => {
+            const progress = Math.min((goal.current / goal.target) * 100, 100);
+            const item = document.createElement("div");
+            item.className = "goal-item";
+            item.innerHTML = `
+                        <div class="goal-header">
+                            <div class="goal-name">${goal.name}</div>
+                            <div class="goal-target">${this.formatCurrency(
+                              goal.target
+                            )}</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <div class="goal-stats">
+                            <span>Saved: ${this.formatCurrency(
+                              goal.current
+                            )}</span>
+                            <span>Deadline: ${goal.deadline}</span>
+                        </div>
+                        <button class="add-money-btn" onclick="app.addToGoal(${
+                          goal.id
+                        })">Add Money</button>
+                    `;
+            container.appendChild(item);
+          });
+        }
+
+        addToGoal(goalId) {
+          const amount = prompt("How much would you like to add?");
+          if (!amount || isNaN(amount)) return;
+
+          const userData = this.getUserData();
+          const goal = userData.goals.find((g) => g.id === goalId);
+          if (goal) {
+            goal.current += parseFloat(amount);
+            this.saveUserData(userData);
+            this.loadGoals();
+          }
+        }
+
+        // Flashcards Functions
+        loadFlashcard() {
+          const card = this.flashcards[this.currentCardIndex];
+          document.getElementById("flashcard-term").textContent = card.term;
+          document.getElementById("flashcard-definition").textContent =
+            card.definition;
+          document.getElementById("card-counter").textContent = `${
+            this.currentCardIndex + 1
+          } / ${this.flashcards.length}`;
+
+          // Reset flip state
+          document
+            .getElementById("current-flashcard")
+            .classList.remove("flipped");
+        }
+
+        flipCard() {
+          document
+            .getElementById("current-flashcard")
+            .classList.toggle("flipped");
+        }
+
+        previousCard() {
+          this.currentCardIndex =
+            (this.currentCardIndex - 1 + this.flashcards.length) %
+            this.flashcards.length;
+          this.loadFlashcard();
+        }
+
+        nextCard() {
+          this.currentCardIndex =
+            (this.currentCardIndex + 1) % this.flashcards.length;
+          this.loadFlashcard();
+        }
+
+        // Quiz Functions
+        startQuiz() {
+          this.currentQuizIndex = 0;
+          this.quizScore = 0;
+          document.getElementById("quiz-start").classList.remove("active");
+          document.getElementById("quiz-results").classList.remove("active");
+          document.getElementById("quiz-question").classList.add("active");
+          this.loadQuestion();
+        }
+
+        loadQuestion() {
+          const question = this.quizQuestions[this.currentQuizIndex];
+          document.getElementById("question-number").textContent = `Question ${
+            this.currentQuizIndex + 1
+          } of ${this.quizQuestions.length}`;
+          document.getElementById(
+            "quiz-score"
+          ).textContent = `Score: ${this.quizScore}`;
+          document.getElementById("question-text").textContent =
+            question.question;
+
+          const container = document.getElementById("answer-options");
+          container.innerHTML = "";
+
+          question.options.forEach((option, index) => {
+            const div = document.createElement("div");
+            div.className = "answer-option";
+            div.textContent = option;
+            div.addEventListener("click", () => this.selectAnswer(index));
+            container.appendChild(div);
+          });
+        }
+
+        selectAnswer(selectedIndex) {
+          const question = this.quizQuestions[this.currentQuizIndex];
+          const options = document.querySelectorAll(".answer-option");
+
+          options.forEach((option, index) => {
+            option.classList.remove("selected");
+            if (index === question.correct) {
+              option.classList.add("correct");
+            } else if (index === selectedIndex && index !== question.correct) {
+              option.classList.add("incorrect");
+            }
+          });
+
+          if (selectedIndex === question.correct) {
+            this.quizScore++;
+          }
+
+          setTimeout(() => {
+            this.currentQuizIndex++;
+            if (this.currentQuizIndex < this.quizQuestions.length) {
+              this.loadQuestion();
+            } else {
+              this.showQuizResults();
+            }
+          }, 1500);
+        }
+
+        showQuizResults() {
+          document.getElementById("quiz-question").classList.remove("active");
+          document.getElementById("quiz-results").classList.add("active");
+
+          const percentage = Math.round(
+            (this.quizScore / this.quizQuestions.length) * 100
+          );
+          document.getElementById(
+            "final-score"
+          ).textContent = `${this.quizScore}/${this.quizQuestions.length} (${percentage}%)`;
+
+          let message = "";
+          if (percentage >= 80) {
+            message =
+              "Excellent! You have a great understanding of financial concepts!";
+          } else if (percentage >= 60) {
+            message =
+              "Good job! Keep learning to improve your financial knowledge.";
+          } else {
+            message =
+              "Keep studying! Practice makes perfect in financial literacy.";
+          }
+          document.getElementById("score-message").textContent = message;
+
+          // Update user stats
+          const userData = this.getUserData();
+          if (!userData.quizAttempts) userData.quizAttempts = 0;
+          if (!userData.bestScore) userData.bestScore = 0;
+
+          userData.quizAttempts++;
+          userData.bestScore = Math.max(userData.bestScore, percentage);
+          this.saveUserData(userData);
+        }
+
+        // Profile Functions
+        loadProfile() {
+          const userData = this.getUserData();
+          document.getElementById("profile-username").textContent =
+            this.currentUser;
+          document.getElementById("join-date").textContent =
+            userData.joinDate || new Date().toLocaleDateString();
+
+          // Stats
+          document.getElementById("quiz-attempts").textContent =
+            userData.quizAttempts || 0;
+          document.getElementById("best-score").textContent = `${
+            userData.bestScore || 0
+          }%`;
+          document.getElementById("active-goals").textContent = (
+            userData.goals || []
+          ).length;
+
+          // Calculate balance
+          const transactions = userData.transactions || [];
+          let balance = 0;
+          transactions.forEach((transaction) => {
+            if (transaction.type === "income") {
+              balance += transaction.amount;
+            } else {
+              balance -= transaction.amount;
+            }
+          });
+          document.getElementById("profile-balance").textContent =
+            this.formatCurrency(balance);
+
+          // Achievements
+          this.loadAchievements(userData);
+        }
+
+        loadAchievements(userData) {
+          const achievements = [];
+
+          if ((userData.quizAttempts || 0) >= 1) {
+            achievements.push({
+              icon: "🎯",
+              title: "First Quiz",
+              desc: "Completed your first quiz",
+            });
+          }
+
+          if ((userData.bestScore || 0) >= 80) {
+            achievements.push({
+              icon: "🏆",
+              title: "Quiz Master",
+              desc: "Scored 80% or higher on a quiz",
+            });
+          }
+
+          if ((userData.transactions || []).length >= 5) {
+            achievements.push({
+              icon: "💰",
+              title: "Budget Tracker",
+              desc: "Added 5 transactions",
+            });
+          }
+
+          if ((userData.goals || []).length >= 1) {
+            achievements.push({
+              icon: "🎯",
+              title: "Goal Setter",
+              desc: "Created your first savings goal",
+            });
+          }
+
+          const container = document.getElementById("achievement-list");
+          container.innerHTML = "";
+
+          if (achievements.length === 0) {
+            container.innerHTML =
+              '<p style="text-align: center; color: #666;">Complete activities to earn achievements!</p>';
+          } else {
+            achievements.forEach((achievement) => {
+              const item = document.createElement("div");
+              item.className = "achievement-item";
+              item.innerHTML = `
+                            <div class="achievement-icon">${achievement.icon}</div>
+                            <div class="achievement-text">
+                                <h4>${achievement.title}</h4>
+                                <p>${achievement.desc}</p>
+                            </div>
+                        `;
+              container.appendChild(item);
+            });
+          }
+        }
+
+        // Tips Functions
+        loadTips() {
+          const randomTip =
+            this.tips[Math.floor(Math.random() * this.tips.length)];
+          document.getElementById("tip-content").textContent = randomTip;
+
+          const factsContainer = document.getElementById("facts-list");
+          factsContainer.innerHTML = "";
+
+          this.facts.forEach((fact) => {
+            const item = document.createElement("div");
+            item.className = "fact-item";
+            item.textContent = fact;
+            factsContainer.appendChild(item);
+          });
+        }
+
+        // Data Management
+        getUserData() {
+          const key = `geniuscat_${this.currentUser}`;
+          const data = localStorage.getItem(key);
+          return data ? JSON.parse(data) : {};
+        }
+
+        saveUserData(data = null) {
+          if (!this.currentUser) return;
+
+          const key = `geniuscat_${this.currentUser}`;
+          const userData = data || this.getUserData();
+
+          if (!userData.joinDate) {
+            userData.joinDate = new Date().toLocaleDateString();
+          }
+
+          localStorage.setItem(key, JSON.stringify(userData));
+        }
+
+        loadUserData() {
+          // This method can be used to load any global user data if needed
+        }
+
+        loadUserProfile() {
+          // Initialize user profile data if first time
+          const userData = this.getUserData();
+          if (Object.keys(userData).length === 0) {
+            this.saveUserData({
+              joinDate: new Date().toLocaleDateString(),
+              transactions: [],
+              goals: [],
+              quizAttempts: 0,
+              bestScore: 0,
+            });
+          }
+        }
+
+        formatCurrency(amount) {
+          return `₱${amount.toLocaleString("en-PH", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`;
+        }
+      }
+
+      // Initialize the app
+      const app = new GeniusCatApp();
+
+      // Make app globally available for inline event handlers
+      window.app = app;
+
+      // Service Worker for offline functionality (improved error handling)
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          const swPath = (() => {
+            // Try to get the correct path for sw.js (relative to current location)
+            // Use '/sw.js' for root, else './sw.js'
+            if (
+              location.pathname === "/" ||
+              location.pathname === "/index.html"
+            ) {
+              return "/sw.js";
+            }
+            return "./sw.js";
+          })();
+
+          navigator.serviceWorker
+            .register(swPath)
+            .then((registration) => {
+              console.log("Service Worker registered:", registration);
+            })
+            .catch((error) => {
+              // Improved error handling
+              let message = "Service Worker registration failed.";
+              if (location.protocol === "file:") {
+                message +=
+                  " Cannot register Service Worker with file:// protocol. Please use a local server (like Live Server, http-server, etc).";
+              } else if (
+                location.protocol !== "https:" &&
+                location.hostname !== "localhost"
+              ) {
+                message += " Service Worker requires HTTPS or localhost.";
+              } else if (error && error.message) {
+                message += ` Error: ${error.message}`;
+              }
+              console.error(message, error);
+
+              // Show an alert only if debugging (optional, you can remove this line if not needed)
+              // alert(message);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
